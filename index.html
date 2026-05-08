@@ -3,109 +3,86 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>5x — Demo</title>
+  <title>5x — Living Interior Prototype</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="app">
-    <section class="hero-panel">
-      <div>
-        <p class="eyebrow">5x / demo jugable</p>
-        <h1>Diseña tu vida. Compra tiempo. Vive las consecuencias.</h1>
-        <p class="subtitle">Un prototipo de interiorismo y vida simulada con estética funcional, precisión editorial y un único acento naranja.</p>
-      </div>
-      <div class="clock-card">
-        <span id="dayLabel">Día 1</span>
-        <strong id="timeLabel">08:00</strong>
-        <small>Velocidad actual <b id="speedLabel">5x</b></small>
-      </div>
-    </section>
+  <main class="shell">
+    <aside class="panel brand-panel">
+      <p class="eyebrow">5x / prototype 002</p>
+      <h1>Una casa que cambia contigo.</h1>
+      <p class="lead">Prototipo 3D: vista isométrica, personaje autónomo, tiempo 5x y necesidades vitales que empujan el diseño.</p>
 
-    <section class="dashboard">
-      <article class="metric"><span>Tiempo útil</span><strong id="timeBank">16h</strong></article>
-      <article class="metric"><span>Dinero</span><strong id="money">$2,400</strong></article>
-      <article class="metric"><span>Descanso</span><strong id="rest">62</strong></article>
-      <article class="metric"><span>Foco</span><strong id="focus">48</strong></article>
-      <article class="metric"><span>Estilo de vida</span><strong id="lifestyle">51</strong></article>
-    </section>
+      <div class="clock">
+        <span id="day">Día 1</span>
+        <strong id="clock">08:00</strong>
+        <small>tiempo real × <b id="speed">5</b></small>
+      </div>
 
-    <section class="stage-shell">
-      <div class="scene-toolbar">
+      <section class="meters">
+        <div><span>Tiempo útil</span><b id="timeBank">16h</b></div>
+        <div><span>Dinero</span><b id="money">$2,400</b></div>
+        <div><span>Descanso</span><b id="rest">62</b></div>
+        <div><span>Foco</span><b id="focus">48</b></div>
+        <div><span>Vida social</span><b id="social">35</b></div>
+        <div><span>Familia</span><b id="family">0</b></div>
+      </section>
+    </aside>
+
+    <section class="stage panel">
+      <div class="stage-header">
         <div>
-          <p class="eyebrow">Apartamento inicial / cocina-comedor</p>
-          <h2>Modo vivir</h2>
+          <p class="eyebrow">Apartamento inicial / isométrico 3D</p>
+          <h2 id="sceneTitle">Modo vivir</h2>
         </div>
-        <div class="toggles">
+        <div class="controls">
           <button id="pauseBtn">Pausar</button>
-          <button id="boostBtn">Comprar +8h</button>
-          <button id="layerBtn">Modo capas</button>
+          <button id="inviteBtn">Invitar amigo</button>
+          <button id="partnerBtn">Vivir en pareja</button>
+          <button id="childBtn">Tener hijo</button>
+          <button id="boostBtn" class="accent">Comprar +8h</button>
         </div>
       </div>
 
-      <div class="scene-wrap">
-        <div id="isoScene" class="iso-scene">
-          <div class="floor"></div>
-          <div class="wall wall-left"></div>
-          <div class="wall wall-right"></div>
-          <div class="sunbeam"></div>
-          <div class="rain" id="rain"></div>
-          <div class="kitchen"></div>
-          <div class="island"><span>mármol claro</span></div>
-          <div class="table"></div>
-          <div class="chair c1"></div><div class="chair c2"></div><div class="chair c3"></div><div class="chair c4"></div>
-          <div class="sofa"></div>
-          <div class="lamp"></div>
-          <div class="rug"></div>
-          <div class="avatar" title="Tú"></div>
-          <div class="callout callout-1">Northline mesa / +foco</div>
-          <div class="callout callout-2">Casa Nube luz / +descanso</div>
-          <div class="callout callout-3">Atelier Varo cocina / +vida</div>
-          <div class="roof-layer" id="roofLayer"></div>
-        </div>
+      <div id="canvasWrap" class="canvas-wrap"></div>
+      <div class="caption">El personaje se mueve solo por la vivienda. Sus necesidades cambian el valor de cada decisión.</div>
+    </section>
+
+    <aside class="panel action-panel">
+      <p class="eyebrow">Decisiones de diseño</p>
+      <h2>Rediseñar para vivir mejor</h2>
+
+      <button class="decision" data-action="light">
+        <b>Luz cálida regulable</b>
+        <span>4h · $380 · +descanso +estilo</span>
+      </button>
+      <button class="decision" data-action="workstation">
+        <b>Workstation Northline</b>
+        <span>7h · $720 · +foco</span>
+      </button>
+      <button class="decision" data-action="social">
+        <b>Mesa extensible Varo</b>
+        <span>6h · $540 · +vida social</span>
+      </button>
+      <button class="decision" data-action="nursery">
+        <b>Zona infantil modular</b>
+        <span>10h · $900 · necesaria con hijos</span>
+      </button>
+
+      <div class="log-box">
+        <p class="eyebrow">Diario</p>
+        <ul id="log"></ul>
       </div>
-    </section>
-
-    <section class="actions">
-      <article class="action-card">
-        <div>
-          <p class="eyebrow">Decisión</p>
-          <h3>Cambiar iluminación</h3>
-          <p>Instala una luz cálida regulable. Mejora descanso y estilo, cuesta dinero y una tarde.</p>
-        </div>
-        <button data-action="light">4h · $380</button>
-      </article>
-      <article class="action-card">
-        <div>
-          <p class="eyebrow">Decisión</p>
-          <h3>Mesa de trabajo Northline</h3>
-          <p>Una pieza original de diseño sobrio. Mejora foco y valor del espacio.</p>
-        </div>
-        <button data-action="desk">7h · $720</button>
-      </article>
-      <article class="action-card">
-        <div>
-          <p class="eyebrow">Vida</p>
-          <h3>Día de trabajo intenso</h3>
-          <p>Ganas dinero, pero gastas tiempo útil y descanso. Como la vida misma, tronco.</p>
-        </div>
-        <button data-action="work">8h · +$950</button>
-      </article>
-      <article class="action-card">
-        <div>
-          <p class="eyebrow">Cuidado</p>
-          <h3>Descansar bien</h3>
-          <p>No todo se compra: dormir recupera descanso, pero el mundo sigue avanzando a 5x.</p>
-        </div>
-        <button data-action="sleep">9h</button>
-      </article>
-    </section>
-
-    <section class="log-panel">
-      <h2>Diario 5x</h2>
-      <ul id="log"></ul>
-    </section>
+    </aside>
   </main>
 
-  <script src="app.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.165.0/build/three.module.js"
+      }
+    }
+  </script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

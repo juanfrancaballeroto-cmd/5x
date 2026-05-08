@@ -1,32 +1,29 @@
 # 5x
 
-**5x** es una demo inicial de un juego minimalista de interiorismo y vida simulada.
+**5x** es un prototipo de juego minimalista de interiorismo y vida simulada.
 
 El núcleo: el tiempo avanza en tiempo real a **5x velocidad**. Diseñar no es solo decorar: cada decisión consume tiempo, dinero y energía, y cambia cómo vive el jugador.
 
-## Dirección
+## Prototype 002
 
-- Estética isométrica editorial, tipo maqueta arquitectónica.
-- Inspiración funcional tipo Dieter Rams / Braun.
-- Paleta sobria con un único acento naranja.
-- Casas premium, minimalistas y aspiracionales.
-- Tiempo como recurso principal y posible moneda de avance.
-- Mobiliario ficticio, sin marcas ni licencias reales.
-
-## Demo actual
+La demo actual ya no es una maqueta CSS: usa **Three.js** desde CDN para crear una escena 3D isométrica directamente en navegador.
 
 Incluye:
 
-- Reloj a 5x.
-- Tiempo útil como recurso.
-- Botón para comprar +8h útiles.
-- Decisiones de diseño y vida con costes/consecuencias.
-- Métricas: dinero, descanso, foco y estilo de vida.
-- Vista isométrica CSS.
-- Modo capas / exploded view.
-- Clima simple sol/lluvia.
+- Escena 3D isométrica de un apartamento inicial.
+- Personaje autónomo moviéndose por la vivienda.
+- Posibilidad de añadir pareja e hijo.
+- Necesidades: dinero, descanso, foco, vida social y familia.
+- Decisiones de diseño con coste en tiempo/dinero y consecuencias.
+- Tiempo útil como recurso principal.
+- Botón pay-to-advance: comprar +8h útiles.
+- Clima simple con lluvia visual.
+- Estética funcional tipo Dieter Rams/Braun, con un único acento naranja.
+- Mobiliario ficticio, sin marcas ni licencias reales.
 
 ## Ejecutar localmente
+
+Por usar módulos ES y Three.js desde import map, sirve la carpeta con HTTP:
 
 ```bash
 python3 -m http.server 8788
@@ -38,10 +35,30 @@ Luego abre:
 http://127.0.0.1:8788
 ```
 
+## Link de prueba sin GitHub Pages
+
+```txt
+https://raw.githack.com/juanfrancaballeroto-cmd/5x/main/index.html
+```
+
+## Dirección de producto
+
+5x no trata de diseñar una casa bonita. Trata de diseñar una vida que cambia:
+
+- vivir solo
+- invitar amigos
+- vivir en pareja
+- tener hijos
+- niños creciendo
+- nuevas rutinas
+- nuevas necesidades
+- coste de oportunidad del tiempo
+
 ## Próximos pasos
 
-- Convertir la escena CSS en motor canvas/WebGL o Three.js.
-- Añadir catálogo de piezas con marcas ficticias.
-- Guardar progreso.
-- Diseñar primer apartamento, objetivos y tutorial.
-- Crear sistema real de eventos vitales y coste de oportunidad.
+- Sustituir geometrías básicas por modelos `.glb/.gltf` originales o CC0.
+- Añadir pathfinding real y estados de personaje: dormir, trabajar, cocinar, descansar.
+- Sistema de eventos vitales: mudanza, pareja, bebé, colegio, trabajo remoto, crisis económica.
+- Catálogo de piezas con marcas ficticias y atributos de diseño.
+- Guardado de progreso.
+- Publicar con GitHub Pages o Vercel.
