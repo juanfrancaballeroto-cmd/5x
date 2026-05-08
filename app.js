@@ -13,6 +13,7 @@ const state = {
   family: 0,
   weather: 'sun',
   hasNursery: false,
+  maquette: true,
 };
 
 const el = (id) => document.getElementById(id);
@@ -43,8 +44,8 @@ function renderHud() {
 
 const wrap = el('canvasWrap');
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xf4f1eb);
-scene.fog = new THREE.Fog(0xf4f1eb, 18, 34);
+scene.background = new THREE.Color(0xf8f6f0);
+scene.fog = new THREE.Fog(0xf8f6f0, 20, 38);
 
 const camera = new THREE.OrthographicCamera(-8, 8, 5.4, -5.4, .1, 100);
 camera.position.set(8, 8, 8);
@@ -52,6 +53,7 @@ camera.lookAt(0, 0, 0);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 wrap.appendChild(renderer.domElement);
@@ -79,6 +81,7 @@ const mat = {
   plant: new THREE.MeshStandardMaterial({ color: 0x7f9275, roughness: .72 }),
   child: new THREE.MeshStandardMaterial({ color: 0xf1cdb5, roughness: .7 }),
 };
+const outlineMat = new THREE.LineBasicMaterial({ color: 0x27231f, transparent: true, opacity: .18 });
 
 function box(name, size, pos, material, cast = true) {
   const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), material);
@@ -183,9 +186,20 @@ function crib(name, pos, rotY = 0) {
   return furnitureGroup(name, pos, rotY, parts);
 }
 
-box('floor', [10.5, .18, 7.2], [0, -.1, 0], mat.floor, false);
-box('back wall', [10.5, 2.8, .18], [0, 1.28, -3.55], mat.wall, false);
-box('side wall', [.18, 2.8, 7.2], [-5.25, 1.28, 0], mat.wall, false);
+function addArchitecturalOutlines(root) {
+  root.traverse((obj) => {
+    if (!obj.isMesh || obj.userData.noOutline || obj.geometry.type === 'SphereGeometry') return;
+    const edges = new THREE.LineSegments(new THREE.EdgesGeometry(obj.geometry, 24), outlineMat);
+    edges.name = 'thin editorial outline';
+    obj.add(edges);
+  });
+}
+
+const floorMesh = box('floor', [10.5, .18, 7.2], [0, -.1, 0], mat.floor, false);
+const backWall = box('back wall', [10.5, 2.8, .18], [0, 1.28, -3.55], mat.wall, false);
+const sideWall = box('side wall', [.18, 2.8, 7.2], [-5.25, 1.28, 0], mat.wall, false);
+const roofLayer = box('exploded ceiling layer', [10.25, .08, 7.0], [0, 4.28, 0], new THREE.MeshStandardMaterial({ color: 0xf7f3eb, transparent: true, opacity: .54, roughness: .9 }), false);
+roofLayer.userData.noOutline = false;
 box('window', [2.8, 1.3, .08], [-2.2, 1.55, -3.65], mat.glass, false);
 box('kitchen block', [2.2, .9, .72], [3.55, .38, -2.65], mat.marble);
 box('kitchen tower', [.8, 1.9, .72], [4.25, .86, -1.55], mat.wall);
@@ -211,6 +225,20 @@ const workstation = furnitureGroup('workstation ghost', [3.45, .02, -.08], Math.
 workstation.visible = false;
 const nursery = crib('nursery modular crib', [-3.65, .02, 2.1], Math.PI / 2);
 nursery.visible = false;
+
+addArchitecturalOutlines(scene);
+
+function setMaquetteMode(on) {
+  state.maquette = on;
+  roofLayer.visible = on;
+  roofLayer.position.y = on ? 4.28 : 2.95;
+  backWall.position.y = on ? 1.42 : 1.28;
+  sideWall.position.y = on ? 1.42 : 1.28;
+  floorMesh.material.color.set(on ? 0xe1d3bd : 0xd8c7ad);
+  el('sceneTitle').textContent = on ? 'Modo maqueta editorial' : 'Modo vivir';
+  el('maquetteBtn').textContent = on ? 'Modo vivir' : 'Modo maqueta';
+}
+setMaquetteMode(true);
 
 function makePerson(color = 0x20201d, scale = 1, name = 'person') {
   const group = new THREE.Group();
@@ -296,6 +324,10 @@ function normalizeDay() {
 }
 
 el('pauseBtn').onclick = () => { state.paused = !state.paused; log(state.paused ? 'Pausas para pensar el diseño.' : 'El tiempo vuelve a correr a 5x.'); renderHud(); };
+el('maquetteBtn').onclick = () => {
+  setMaquetteMode(!state.maquette);
+  log(state.maquette ? 'Modo maqueta: cubierta elevada, lectura editorial y materiales a la vista.' : 'Modo vivir: la casa vuelve a sentirse habitada.');
+};
 el('boostBtn').onclick = () => {
   if (state.money < 499) return log('Comprar tiempo cuesta $499.', 'bad');
   state.money -= 499;
@@ -364,12 +396,15 @@ function animate() {
   const warm = hour < 7 || hour > 18;
   sun.intensity = state.weather === 'rain' ? 1.15 : warm ? 2.2 : 3.1;
   ambient.intensity = state.weather === 'rain' ? 1.35 : 2.1;
+  if (state.maquette) {
+    roofLayer.position.y = 4.28 + Math.sin(clock.elapsedTime * .8) * .035;
+  }
 
   renderHud();
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
 
-log('Prototipo 3D iniciado. Ahora la casa no está quieta: alguien vive dentro.', 'good');
+log('Prototipo 004: más cerca de la referencia, maqueta editorial con vida dentro.', 'good');
 renderHud();
 animate();

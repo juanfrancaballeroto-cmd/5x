@@ -4,7 +4,7 @@
 
 El núcleo: el tiempo avanza en tiempo real a **5x velocidad**. Diseñar no es solo decorar: cada decisión consume tiempo, dinero y energía, y cambia cómo vive el jugador.
 
-## Prototype 002
+## Prototype 004
 
 La demo actual ya no es una maqueta CSS: usa **Three.js** desde CDN para crear una escena 3D isométrica directamente en navegador.
 
@@ -20,6 +20,7 @@ Incluye:
 - Botón pay-to-advance: comprar +8h útiles.
 - Clima simple con lluvia visual.
 - Estética funcional tipo Dieter Rams/Braun, con un único acento naranja.
+- Dirección visual más cercana a la referencia: maqueta arquitectónica editorial, cubierta elevada, líneas finas, callouts y tira de materiales.
 - Mobiliario ficticio, sin marcas ni licencias reales.
 
 ## Librerías / assets recomendados
