@@ -12,6 +12,7 @@ Incluye:
 
 - Escena 3D isométrica de un apartamento inicial.
 - Mobiliario procedural más cuidado: lounge chair, sillas moldeadas, aparador, estantería modular, cuna y lámpara naranja.
+- Carga de modelos `.glb` gratuitos desde Khronos glTF Sample Models: Sheen Chair, Lantern y Avocado prop.
 - Personaje autónomo moviéndose por la vivienda.
 - Posibilidad de añadir pareja e hijo.
 - Necesidades: dinero, descanso, foco, vida social y familia.
@@ -77,3 +78,13 @@ https://raw.githack.com/juanfrancaballeroto-cmd/5x/main/index.html
 - Catálogo de piezas con marcas ficticias y atributos de diseño.
 - Guardado de progreso.
 - Publicar con GitHub Pages o Vercel.
+
+## Modelos GLB incluidos
+
+Se cargan por CDN desde el repositorio público de Khronos glTF Sample Models:
+
+- `SheenChair.glb`
+- `Lantern.glb`
+- `Avocado.glb`
+
+Son assets de prueba públicos para glTF. En producción conviene sustituirlos por assets propios, CC0 o con licencia comercial clara y documentada.

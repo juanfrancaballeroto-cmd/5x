@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const state = {
   day: 1,
@@ -82,6 +83,12 @@ const mat = {
   child: new THREE.MeshStandardMaterial({ color: 0xf1cdb5, roughness: .7 }),
 };
 const outlineMat = new THREE.LineBasicMaterial({ color: 0x27231f, transparent: true, opacity: .18 });
+const gltfLoader = new GLTFLoader();
+const freeModels = {
+  sheenChair: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/main/2.0/SheenChair/glTF-Binary/SheenChair.glb',
+  lantern: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/main/2.0/Lantern/glTF-Binary/Lantern.glb',
+  avocado: 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/main/2.0/Avocado/glTF-Binary/Avocado.glb',
+};
 
 function box(name, size, pos, material, cast = true) {
   const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), material);
@@ -195,6 +202,40 @@ function addArchitecturalOutlines(root) {
   });
 }
 
+function prepareImportedModel(root) {
+  root.traverse((obj) => {
+    if (!obj.isMesh) return;
+    obj.castShadow = true;
+    obj.receiveShadow = true;
+    obj.userData.noOutline = true;
+    if (obj.material) {
+      obj.material.roughness = Math.max(obj.material.roughness ?? .55, .48);
+      obj.material.metalness = Math.min(obj.material.metalness ?? 0, .35);
+    }
+  });
+}
+
+function loadFreeGlb({ name, url, pos, scale = 1, rot = [0, 0, 0], fallback }) {
+  const holder = new THREE.Group();
+  holder.name = name;
+  holder.position.set(...pos);
+  holder.rotation.set(...rot);
+  scene.add(holder);
+
+  gltfLoader.load(url, (gltf) => {
+    const model = gltf.scene;
+    prepareImportedModel(model);
+    model.scale.setScalar(scale);
+    holder.add(model);
+    log(`Modelo GLB cargado: ${name}.`, 'good');
+  }, undefined, () => {
+    if (fallback) holder.add(fallback);
+    log(`No se pudo cargar ${name}; usando fallback procedural.`, 'bad');
+  });
+
+  return holder;
+}
+
 const floorMesh = box('floor', [10.5, .18, 7.2], [0, -.1, 0], mat.floor, false);
 const backWall = box('back wall', [10.5, 2.8, .18], [0, 1.28, -3.55], mat.wall, false);
 const sideWall = box('side wall', [.18, 2.8, 7.2], [-5.25, 1.28, 0], mat.wall, false);
@@ -215,6 +256,34 @@ box('rug', [3.2, .04, 1.8], [2.35, .02, 1.65], new THREE.MeshStandardMaterial({ 
 floorLamp('single orange floor lamp', [-4.15, .02, -.9]);
 cyl('plant pot', .22, .32, [-4.35, .16, 2.55], mat.ink, 24);
 cyl('plant', .36, .75, [-4.35, .72, 2.55], mat.plant, 7);
+
+loadFreeGlb({
+  name: 'free GLB / Sheen Chair',
+  url: freeModels.sheenChair,
+  pos: [-3.55, .05, .35],
+  scale: 1.08,
+  rot: [0, Math.PI * .22, 0],
+  fallback: loungeChair('fallback imported chair', [0, 0, 0], 0),
+});
+scene.remove(scene.getObjectByName('fallback imported chair'));
+
+loadFreeGlb({
+  name: 'free GLB / Lantern',
+  url: freeModels.lantern,
+  pos: [1.95, .82, -1.05],
+  scale: .18,
+  rot: [0, -Math.PI * .12, 0],
+  fallback: part(new THREE.CylinderGeometry(.12, .12, .28, 20), mat.orange, [0, 0, 0]),
+});
+
+loadFreeGlb({
+  name: 'free GLB / Avocado prop',
+  url: freeModels.avocado,
+  pos: [-1.18, .72, 1.05],
+  scale: 10,
+  rot: [0, Math.PI * .38, 0],
+  fallback: part(new THREE.SphereGeometry(.16, 20, 20), mat.plant, [0, 0, 0]),
+});
 
 const workstation = furnitureGroup('workstation ghost', [3.45, .02, -.08], Math.PI / 2, [
   part(new THREE.BoxGeometry(1.55, .16, .68), mat.ink, [0, .58, 0]),
