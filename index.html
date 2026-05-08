@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>5x — Demo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="hero-panel">
+      <div>
+        <p class="eyebrow">5x / demo jugable</p>
+        <h1>Diseña tu vida. Compra tiempo. Vive las consecuencias.</h1>
+        <p class="subtitle">Un prototipo de interiorismo y vida simulada con estética funcional, precisión editorial y un único acento naranja.</p>
+      </div>
+      <div class="clock-card">
+        <span id="dayLabel">Día 1</span>
+        <strong id="timeLabel">08:00</strong>
+        <small>Velocidad actual <b id="speedLabel">5x</b></small>
+      </div>
+    </section>
+
+    <section class="dashboard">
+      <article class="metric"><span>Tiempo útil</span><strong id="timeBank">16h</strong></article>
+      <article class="metric"><span>Dinero</span><strong id="money">$2,400</strong></article>
+      <article class="metric"><span>Descanso</span><strong id="rest">62</strong></article>
+      <article class="metric"><span>Foco</span><strong id="focus">48</strong></article>
+      <article class="metric"><span>Estilo de vida</span><strong id="lifestyle">51</strong></article>
+    </section>
+
+    <section class="stage-shell">
+      <div class="scene-toolbar">
+        <div>
+          <p class="eyebrow">Apartamento inicial / cocina-comedor</p>
+          <h2>Modo vivir</h2>
+        </div>
+        <div class="toggles">
+          <button id="pauseBtn">Pausar</button>
+          <button id="boostBtn">Comprar +8h</button>
+          <button id="layerBtn">Modo capas</button>
+        </div>
+      </div>
+
+      <div class="scene-wrap">
+        <div id="isoScene" class="iso-scene">
+          <div class="floor"></div>
+          <div class="wall wall-left"></div>
+          <div class="wall wall-right"></div>
+          <div class="sunbeam"></div>
+          <div class="rain" id="rain"></div>
+          <div class="kitchen"></div>
+          <div class="island"><span>mármol claro</span></div>
+          <div class="table"></div>
+          <div class="chair c1"></div><div class="chair c2"></div><div class="chair c3"></div><div class="chair c4"></div>
+          <div class="sofa"></div>
+          <div class="lamp"></div>
+          <div class="rug"></div>
+          <div class="avatar" title="Tú"></div>
+          <div class="callout callout-1">Northline mesa / +foco</div>
+          <div class="callout callout-2">Casa Nube luz / +descanso</div>
+          <div class="callout callout-3">Atelier Varo cocina / +vida</div>
+          <div class="roof-layer" id="roofLayer"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="actions">
+      <article class="action-card">
+        <div>
+          <p class="eyebrow">Decisión</p>
+          <h3>Cambiar iluminación</h3>
+          <p>Instala una luz cálida regulable. Mejora descanso y estilo, cuesta dinero y una tarde.</p>
+        </div>
+        <button data-action="light">4h · $380</button>
+      </article>
+      <article class="action-card">
+        <div>
+          <p class="eyebrow">Decisión</p>
+          <h3>Mesa de trabajo Northline</h3>
+          <p>Una pieza original de diseño sobrio. Mejora foco y valor del espacio.</p>
+        </div>
+        <button data-action="desk">7h · $720</button>
+      </article>
+      <article class="action-card">
+        <div>
+          <p class="eyebrow">Vida</p>
+          <h3>Día de trabajo intenso</h3>
+          <p>Ganas dinero, pero gastas tiempo útil y descanso. Como la vida misma, tronco.</p>
+        </div>
+        <button data-action="work">8h · +$950</button>
+      </article>
+      <article class="action-card">
+        <div>
+          <p class="eyebrow">Cuidado</p>
+          <h3>Descansar bien</h3>
+          <p>No todo se compra: dormir recupera descanso, pero el mundo sigue avanzando a 5x.</p>
+        </div>
+        <button data-action="sleep">9h</button>
+      </article>
+    </section>
+
+    <section class="log-panel">
+      <h2>Diario 5x</h2>
+      <ul id="log"></ul>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
