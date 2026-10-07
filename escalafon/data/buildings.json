@@ -1,0 +1,52 @@
+[
+  {
+    "id": "vivienda_protegida", "zones": ["urbano"], "cost": 1100000, "months": 12, "height": 3,
+    "monthly": { "budget": -6000, "collectives": { "inquilinos": 0.05, "jovenes": 0.04, "propietarios": -0.02 }, "legacy": { "vivienda": 1.5 } },
+    "complete": { "stats": { "protectedHomes": 120, "jobs": 10 }, "legacy": { "vivienda": 15 }, "image": 2 }
+  },
+  {
+    "id": "bloque_libre", "zones": ["urbano"], "cost": -250000, "months": 10, "height": 4,
+    "monthly": { "budget": 8000, "collectives": { "propietarios": 0.03, "inquilinos": -0.01, "jovenes": -0.01 }, "legacy": { "vivienda": 0.3 } },
+    "complete": { "stats": { "freeHomes": 200, "jobs": 20 }, "legacy": { "empleo": 3 } }
+  },
+  {
+    "id": "hotel", "zones": ["urbano"], "cost": -300000, "months": 14, "height": 5,
+    "monthly": { "budget": 15000, "collectives": { "turistico": 0.06, "autonomos": 0.02, "ecologistas": -0.03, "inquilinos": -0.01 }, "legacy": { "empleo": 0.8, "paisaje": -0.5 } },
+    "complete": { "stats": { "jobs": 90 }, "legacy": { "empleo": 5 } }
+  },
+  {
+    "id": "pisos_turisticos", "zones": ["urbano"], "cost": -120000, "months": 4, "height": 2,
+    "monthly": { "budget": 10000, "collectives": { "turistico": 0.05, "propietarios": 0.03, "inquilinos": -0.05, "jovenes": -0.03 }, "legacy": { "vivienda": -1 } },
+    "complete": { "stats": { "jobs": 10 } }
+  },
+  {
+    "id": "polideportivo", "zones": ["urbano"], "cost": 900000, "months": 10, "height": 2,
+    "monthly": { "budget": -9000, "collectives": { "jovenes": 0.06, "pensionistas": 0.01, "autonomos": 0.01 }, "legacy": { "sanidad": 0.5 } },
+    "complete": { "stats": { "jobs": 15 }, "image": 2 }
+  },
+  {
+    "id": "centro_salud", "zones": ["urbano"], "cost": 1200000, "months": 12, "height": 2,
+    "monthly": { "budget": -15000, "collectives": { "pensionistas": 0.07, "migrantes": 0.03, "inquilinos": 0.01 }, "legacy": { "sanidad": 2 } },
+    "complete": { "stats": { "consults": 18000, "jobs": 30 }, "legacy": { "sanidad": 15 }, "image": 2 }
+  },
+  {
+    "id": "depuradora", "zones": ["rustico", "vega"], "cost": 1000000, "months": 12, "height": 1,
+    "monthly": { "budget": -8000, "collectives": { "ecologistas": 0.05, "autonomos": 0.01 }, "legacy": { "agua": 1.2, "paisaje": 0.8 } },
+    "complete": { "stats": { "irrigatedHa": 150, "jobs": 8 }, "legacy": { "agua": 10 } }
+  },
+  {
+    "id": "poligono_industrial", "zones": ["rustico"], "cost": 800000, "months": 10, "height": 2,
+    "monthly": { "budget": 12000, "collectives": { "autonomos": 0.05, "migrantes": 0.03, "jovenes": 0.02, "ecologistas": -0.04 }, "legacy": { "empleo": 2, "paisaje": -0.8 } },
+    "complete": { "stats": { "jobs": 250 }, "legacy": { "empleo": 15 } }
+  },
+  {
+    "id": "regadio", "zones": ["rustico", "vega"], "cost": 700000, "months": 8, "height": 0.5,
+    "monthly": { "budget": -4000, "collectives": { "autonomos": 0.04, "migrantes": 0.02, "ecologistas": -0.02 }, "legacy": { "agua": 2 } },
+    "complete": { "stats": { "irrigatedHa": 600, "jobs": 25 }, "legacy": { "agua": 12 } }
+  },
+  {
+    "id": "parque", "zones": ["urbano", "rustico", "vega"], "cost": 500000, "months": 6, "height": 0.6,
+    "monthly": { "budget": -5000, "collectives": { "ecologistas": 0.04, "pensionistas": 0.03, "propietarios": 0.02, "jovenes": 0.01 }, "legacy": { "paisaje": 2 } },
+    "complete": { "stats": { "protectedHa": 40, "jobs": 6 }, "legacy": { "paisaje": 10 }, "image": 1 }
+  }
+]

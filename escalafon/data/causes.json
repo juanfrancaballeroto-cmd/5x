@@ -1,0 +1,8 @@
+[
+  { "id": "vivienda", "goal": 100, "stat": "protectedHomes" },
+  { "id": "impuestos", "goal": 100, "stat": "taxCut" },
+  { "id": "agua", "goal": 100, "stat": "irrigatedHa" },
+  { "id": "empleo", "goal": 100, "stat": "jobs" },
+  { "id": "sanidad", "goal": 100, "stat": "consults" },
+  { "id": "paisaje", "goal": 100, "stat": "protectedHa" }
+]

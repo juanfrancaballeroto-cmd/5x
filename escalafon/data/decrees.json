@@ -1,0 +1,26 @@
+[
+  {
+    "id": "limitar_pisos",
+    "monthly": { "budget": -3000, "collectives": { "inquilinos": 0.04, "jovenes": 0.02, "turistico": -0.05, "propietarios": -0.02 }, "legacy": { "vivienda": 1 } }
+  },
+  {
+    "id": "tasa_turistica",
+    "monthly": { "budget": 12000, "collectives": { "turistico": -0.04, "autonomos": -0.01, "ecologistas": 0.01 }, "legacy": { "impuestos": -0.5 } }
+  },
+  {
+    "id": "bonificar_autonomos",
+    "monthly": { "budget": -10000, "collectives": { "autonomos": 0.05 }, "legacy": { "impuestos": 1.5, "empleo": 0.5 }, "stats": { "taxCut": 0.1 } }
+  },
+  {
+    "id": "subir_ibi",
+    "monthly": { "budget": 25000, "collectives": { "propietarios": -0.06, "pensionistas": -0.02, "inquilinos": -0.01 }, "legacy": { "impuestos": -2 }, "stats": { "taxCut": -0.15 } }
+  },
+  {
+    "id": "zona_verde",
+    "monthly": { "budget": -6000, "collectives": { "ecologistas": 0.05, "propietarios": 0.01, "autonomos": -0.02 }, "legacy": { "paisaje": 1.5 }, "stats": { "protectedHa": 5 } }
+  },
+  {
+    "id": "regularizacion",
+    "monthly": { "budget": -4000, "collectives": { "migrantes": 0.07, "autonomos": 0.01, "pensionistas": -0.01, "propietarios": -0.01 }, "legacy": { "empleo": 0.8 }, "stats": { "jobs": 5 } }
+  }
+]

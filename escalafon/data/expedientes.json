@@ -1,0 +1,301 @@
+[
+  { "id": "vega_1", "weight": 4, "when": { "minMonth": 3, "notFlags": ["vega"] }, "options": [
+    { "id": "a", "effects": { "loyalty": { "cunado": 1 }, "flags": { "vega": 1 }, "schedule": [{ "id": "vega_2", "delay": 3 }] },
+      "corrupt": { "kind": "trafico_influencias", "evidence": 1, "visibility": 1, "witnesses": ["cunado"] } },
+    { "id": "b", "effects": { "loyalty": { "cunado": -2 }, "compass": -2, "flags": { "vega": -1 } } }
+  ]},
+  { "id": "vega_2", "chainOnly": true, "options": [
+    { "id": "a", "effects": { "power": 3, "collectives": { "ecologistas": -1 }, "flags": { "vega": 2 }, "plotZone": { "plot": "vega", "zone": "urbano" }, "schedule": [{ "id": "vega_3", "delay": 4 }] },
+      "corrupt": { "kind": "prevaricacion", "evidence": 2, "visibility": 2, "witnesses": ["concejal_urbanismo", "cunado"] } },
+    { "id": "b", "effects": { "loyalty": { "cunado": -2 }, "flags": { "vega": -1 } } },
+    { "id": "c", "requires": { "budget": 400000 }, "effects": { "budget": -400000, "power": -2, "compass": -4, "loyalty": { "cunado": -4 }, "flags": { "vega": -2 }, "plotZone": { "plot": "vega", "zone": "urbano" }, "build": { "plot": "vega", "building": "vivienda_protegida", "mode": "clean" } } }
+  ]},
+  { "id": "vega_3", "chainOnly": true, "options": [
+    { "id": "a", "effects": { "blackMoney": 600000, "power": 6, "compass": 8, "flags": { "vega": 3 }, "loyalty": { "cunado": 2, "constructor": 2, "tesorero": 1 }, "build": { "plot": "vega", "building": "vivienda_protegida", "mode": "dedo" }, "schedule": [{ "id": "vega_4", "delay": 6 }] },
+      "corrupt": { "kind": "cohecho", "evidence": 3, "visibility": 3, "witnesses": ["cunado", "constructor", "tesorero"] } },
+    { "id": "b", "effects": { "budget": 500000, "compass": -3, "flags": { "vega": 4 }, "loyalty": { "cunado": -3, "constructor": -2 }, "build": { "plot": "vega", "building": "vivienda_protegida", "mode": "clean" } } }
+  ]},
+  { "id": "vega_4", "chainOnly": true, "options": [
+    { "id": "a", "effects": { "loyalty": { "cunado": -2 }, "suspicion": -3 } },
+    { "id": "b", "effects": { "suspicion": 6, "image": -2 } },
+    { "id": "c", "effects": { "suspicion": 2, "compass": 3 } }
+  ]},
+
+  { "id": "viv_cooperativa", "weight": 2, "when": { "minMonth": 2, "cause": "vivienda" }, "options": [
+    { "id": "a", "requires": { "budget": 150000 }, "effects": { "budget": -150000, "power": -2, "legacy": { "vivienda": 12 }, "stats": { "protectedHomes": 40 }, "collectives": { "inquilinos": 1, "propietarios": -0.5 } } },
+    { "id": "b", "requires": { "budget": 100000 }, "effects": { "budget": -100000, "blackMoney": 50000, "legacy": { "vivienda": 12 }, "stats": { "protectedHomes": 40 }, "collectives": { "inquilinos": 1, "propietarios": -0.5 } },
+      "corrupt": { "kind": "cohecho", "evidence": 1, "visibility": 2, "witnesses": ["constructor"] } },
+    { "id": "c", "effects": { "budget": -20000, "compass": 1 } }
+  ]},
+  { "id": "viv_fondo", "when": { "minMonth": 6 }, "options": [
+    { "id": "a", "requires": { "budget": 200000 }, "effects": { "budget": -200000, "power": -3, "legacy": { "vivienda": 10 }, "stats": { "protectedHomes": 30 }, "collectives": { "propietarios": -1.5, "inquilinos": 1.5 } } },
+    { "id": "b", "effects": { "budget": -80000, "legacy": { "vivienda": 5 }, "stats": { "protectedHomes": 12 }, "collectives": { "inquilinos": 0.5 } } },
+    { "id": "c", "effects": { "power": 1, "collectives": { "inquilinos": -1 } },
+      "corrupt": { "kind": "cohecho", "evidence": 1, "visibility": 1, "witnesses": ["jefa_gabinete"] } }
+  ]},
+
+  { "id": "imp_contable", "weight": 2, "when": { "minMonth": 4, "cause": "impuestos" }, "options": [
+    { "id": "a", "effects": { "legacy": { "impuestos": 20 }, "stats": { "taxCut": 4 }, "collectives": { "propietarios": 1, "autonomos": 0.5 } },
+      "hidden": { "schedule": [{ "id": "imp_agujero", "delay": 8 }] },
+      "corrupt": { "kind": "falsedad", "evidence": 2, "visibility": 1, "witnesses": ["interventora"] } },
+    { "id": "b", "requires": { "budget": 150000 }, "effects": { "budget": -150000, "incomeDelta": -6000, "legacy": { "impuestos": 8 }, "stats": { "taxCut": 2 }, "collectives": { "propietarios": 0.5, "pensionistas": -0.3 } } },
+    { "id": "c", "effects": { "compass": -1 } }
+  ]},
+  { "id": "imp_agujero", "chainOnly": true, "options": [
+    { "id": "a", "effects": { "budget": -600000, "image": -3 } },
+    { "id": "b", "effects": { "image": 1, "compass": 4, "suspicion": 4 } },
+    { "id": "c", "effects": { "budget": 200000, "image": -1, "collectives": { "pensionistas": -1 } } }
+  ]},
+  { "id": "imp_rebaja", "repeatable": true, "weight": 1.5, "when": { "minMonth": 6, "minBudget": 1500000, "cause": "impuestos" }, "options": [
+    { "id": "a", "effects": { "incomeDelta": -12000, "image": 1, "legacy": { "impuestos": 15 }, "stats": { "taxCut": 3 }, "collectives": { "propietarios": 0.8, "autonomos": 0.5 } } },
+    { "id": "b", "effects": {} }
+  ]},
+  { "id": "imp_terrazas", "when": { "minMonth": 3 }, "options": [
+    { "id": "a", "requires": { "budget": 100000 }, "effects": { "budget": -100000, "legacy": { "impuestos": 6 }, "stats": { "taxCut": 1 }, "collectives": { "autonomos": 1.5, "pensionistas": -0.5 } } },
+    { "id": "b", "effects": { "image": -1, "compass": 3, "collectives": { "autonomos": 0.3 } } },
+    { "id": "c", "effects": { "collectives": { "autonomos": -1 } } }
+  ]},
+
+  { "id": "agua_pozos", "weight": 2, "when": { "minMonth": 3, "cause": "agua" }, "options": [
+    { "id": "a", "effects": { "budget": 100000, "legacy": { "agua": 6 }, "stats": { "irrigatedHa": 100 }, "collectives": { "ecologistas": -1.5, "autonomos": 1 } } },
+    { "id": "b", "effects": { "legacy": { "agua": 4, "paisaje": 3 }, "collectives": { "ecologistas": 1.5, "autonomos": -2 } } },
+    { "id": "c", "effects": { "blackMoney": 50000, "legacy": { "agua": 3 }, "collectives": { "autonomos": 1 } },
+      "corrupt": { "kind": "cohecho", "evidence": 1, "visibility": 2, "witnesses": ["concejal_urbanismo"] } }
+  ]},
+  { "id": "agua_trasvase", "weight": 2, "when": { "minMonth": 8, "cause": "agua" }, "options": [
+    { "id": "a", "effects": { "power": 4, "image": -1, "legacy": { "agua": 12 }, "stats": { "irrigatedHa": 300 }, "collectives": { "ecologistas": -2 } } },
+    { "id": "b", "effects": { "power": -4, "collectives": { "ecologistas": 1 } } }
+  ]},
+  { "id": "agua_golf", "when": { "minMonth": 5 }, "options": [
+    { "id": "a", "effects": { "loyalty": { "concejal_urbanismo": 2 }, "legacy": { "agua": -5 }, "collectives": { "ecologistas": -1.5 } },
+      "corrupt": { "kind": "trafico_influencias", "evidence": 1, "visibility": 2, "witnesses": ["concejal_urbanismo"] } },
+    { "id": "b", "effects": { "loyalty": { "concejal_urbanismo": -2 }, "collectives": { "ecologistas": 0.5, "autonomos": 0.5 } } }
+  ]},
+
+  { "id": "emp_bateria", "weight": 2, "when": { "minMonth": 5, "cause": "empleo" }, "options": [
+    { "id": "a", "requires": { "budget": 300000 }, "effects": { "budget": -300000, "power": 2, "legacy": { "empleo": 15 }, "stats": { "jobs": 180 }, "collectives": { "ecologistas": -2, "migrantes": 1 } } },
+    { "id": "b", "effects": { "blackMoney": 150000, "legacy": { "empleo": 15 }, "stats": { "jobs": 180 }, "collectives": { "ecologistas": -2, "migrantes": 1 } },
+      "corrupt": { "kind": "cohecho", "evidence": 2, "visibility": 3, "witnesses": ["concejal_urbanismo"] } },
+    { "id": "c", "effects": { "collectives": { "ecologistas": 1, "autonomos": -1 } } }
+  ]},
+  { "id": "emp_plan", "weight": 2, "when": { "minMonth": 3, "cause": "empleo" }, "options": [
+    { "id": "a", "requires": { "budget": 250000 }, "effects": { "budget": -250000, "image": 2, "legacy": { "empleo": 8 }, "stats": { "jobs": 60 } } },
+    { "id": "b", "requires": { "budget": 250000 }, "effects": { "budget": -250000, "power": 5, "legacy": { "empleo": 8 }, "stats": { "jobs": 60 } },
+      "corrupt": { "kind": "prevaricacion", "evidence": 1, "visibility": 3, "witnesses": ["jefa_gabinete"] } },
+    { "id": "c", "effects": {} }
+  ]},
+
+  { "id": "san_tardes", "weight": 2, "when": { "minMonth": 3, "cause": "sanidad" }, "options": [
+    { "id": "a", "requires": { "budget": 200000 }, "effects": { "budget": -200000, "incomeDelta": -5000, "legacy": { "sanidad": 10 }, "stats": { "consults": 6000 }, "collectives": { "pensionistas": 1.5 } } },
+    { "id": "b", "requires": { "budget": 120000 }, "effects": { "budget": -120000, "blackMoney": 40000, "power": 2, "legacy": { "sanidad": 10 }, "stats": { "consults": 6000 }, "collectives": { "pensionistas": 1 } },
+      "corrupt": { "kind": "cohecho", "evidence": 1, "visibility": 2, "witnesses": ["tesorero"] } },
+    { "id": "c", "effects": { "power": -2, "legacy": { "sanidad": 3 }, "stats": { "consults": 1500 } } }
+  ]},
+  { "id": "san_lista", "when": { "minMonth": 2 }, "options": [
+    { "id": "a", "effects": { "compass": 3, "legacy": { "sanidad": -1 }, "collectives": { "pensionistas": 0.3 } } },
+    { "id": "b", "effects": { "compass": -1, "collectives": { "pensionistas": -0.2 } } }
+  ]},
+  { "id": "san_ambulancia", "when": { "minMonth": 10, "cause": "sanidad" }, "options": [
+    { "id": "a", "requires": { "budget": 90000 }, "effects": { "budget": -90000, "legacy": { "sanidad": 6 }, "stats": { "consults": 2000 }, "collectives": { "jovenes": -0.5 } } },
+    { "id": "b", "effects": { "collectives": { "pensionistas": -0.5, "jovenes": 0.5 } } }
+  ]},
+
+  { "id": "paisaje_eolico", "when": { "minMonth": 6 }, "options": [
+    { "id": "a", "effects": { "budget": 150000, "incomeDelta": 4000, "legacy": { "paisaje": -8, "empleo": 4 }, "stats": { "jobs": 20 }, "collectives": { "ecologistas": -0.5, "autonomos": 0.5 } } },
+    { "id": "b", "effects": { "legacy": { "paisaje": 8 }, "stats": { "protectedHa": 120 }, "collectives": { "ecologistas": 1, "autonomos": -0.5 } } },
+    { "id": "c", "effects": { "budget": 150000, "blackMoney": 60000, "legacy": { "paisaje": -8 }, "collectives": { "ecologistas": -0.5 } },
+      "corrupt": { "kind": "cohecho", "evidence": 1, "visibility": 2, "witnesses": ["jefa_gabinete"] } }
+  ]},
+  { "id": "paisaje_chalet", "weight": 2, "when": { "minMonth": 4, "cause": "paisaje" }, "options": [
+    { "id": "a", "effects": { "power": -4, "loyalty": { "concejal_urbanismo": -3 }, "legacy": { "paisaje": 10 }, "stats": { "protectedHa": 30 }, "collectives": { "ecologistas": 1 } } },
+    { "id": "b", "effects": { "power": 2, "collectives": { "ecologistas": -1 } },
+      "corrupt": { "kind": "prevaricacion", "evidence": 2, "visibility": 2, "witnesses": ["concejal_urbanismo", "interventora"] } },
+    { "id": "c", "effects": { "compass": 2, "loyalty": { "concejal_urbanismo": 1 }, "collectives": { "ecologistas": -0.5 } } }
+  ]},
+  { "id": "paisaje_romano", "when": { "minMonth": 6, "anyConstruction": true }, "options": [
+    { "id": "a", "effects": { "image": 1, "legacy": { "paisaje": 8 }, "delayConstruction": { "building": "*", "months": 3 } } },
+    { "id": "b", "effects": { "compass": 3, "legacy": { "paisaje": -4 } },
+      "corrupt": { "kind": "prevaricacion", "evidence": 2, "visibility": 2, "witnesses": ["constructor"] } },
+    { "id": "c", "requires": { "budget": 100000 }, "effects": { "budget": -100000, "legacy": { "paisaje": 5 }, "collectives": { "turistico": 1, "autonomos": 0.5 } } }
+  ]},
+
+  { "id": "hotel_plantas", "when": { "building": { "id": "hotel", "status": "any" } }, "options": [
+    { "id": "a", "effects": { "budget": 200000, "legacy": { "paisaje": -5 }, "collectives": { "turistico": 1, "ecologistas": -1 } } },
+    { "id": "b", "effects": { "blackMoney": 30000, "collectives": { "turistico": 1, "ecologistas": -1 } },
+      "corrupt": { "kind": "cohecho", "evidence": 1, "visibility": 2, "witnesses": ["jefa_gabinete"] } },
+    { "id": "c", "effects": { "collectives": { "turistico": -0.5, "ecologistas": 0.5 } } }
+  ]},
+  { "id": "pisos_maletas", "when": { "building": { "id": "pisos_turisticos", "status": "built" } }, "options": [
+    { "id": "a", "effects": { "collectives": { "inquilinos": 1, "turistico": -1 } } },
+    { "id": "b", "effects": { "budget": -5000, "image": -1, "collectives": { "inquilinos": -0.3 } } },
+    { "id": "c", "effects": { "collectives": { "inquilinos": -1 } } }
+  ]},
+  { "id": "poli_cinta", "when": { "building": { "id": "polideportivo", "status": "built" } }, "options": [
+    { "id": "a", "effects": { "image": 3, "compass": 1 } },
+    { "id": "b", "effects": { "power": 4, "image": -1 } },
+    { "id": "c", "effects": { "image": 1, "power": -1, "collectives": { "jovenes": 1 } } }
+  ]},
+  { "id": "depu_sobrecoste", "when": { "building": { "id": "depuradora", "status": "building" } }, "options": [
+    { "id": "a", "requires": { "budget": 300000 }, "effects": { "budget": -300000 } },
+    { "id": "b", "effects": { "blackMoney": 100000 },
+      "corrupt": { "kind": "malversacion", "evidence": 2, "visibility": 2, "witnesses": ["constructor", "interventora"] } },
+    { "id": "c", "effects": { "collectives": { "ecologistas": -1 }, "delayConstruction": { "building": "depuradora", "months": 4 } } }
+  ]},
+  { "id": "regadio_turno", "when": { "building": { "id": "regadio", "status": "built" } }, "options": [
+    { "id": "a", "effects": { "collectives": { "autonomos": 0.5 } } },
+    { "id": "b", "effects": { "power": 2, "collectives": { "autonomos": 1, "ecologistas": -0.5 } },
+      "corrupt": { "kind": "prevaricacion", "evidence": 1, "visibility": 2, "witnesses": ["jefa_gabinete"] } }
+  ]},
+  { "id": "salud_nombre", "when": { "building": { "id": "centro_salud", "status": "built" } }, "options": [
+    { "id": "a", "effects": { "image": 1, "collectives": { "pensionistas": 0.5 } } },
+    { "id": "b", "effects": { "image": -2, "compass": 3, "power": 1 } },
+    { "id": "c", "effects": { "image": -1, "power": 2 } }
+  ]},
+  { "id": "poligono_naves", "when": { "building": { "id": "poligono_industrial", "status": "any" } }, "options": [
+    { "id": "a", "requires": { "budget": 50000 }, "effects": { "budget": -50000, "legacy": { "empleo": 5 }, "stats": { "jobs": 40 } } },
+    { "id": "b", "effects": { "blackMoney": 70000, "legacy": { "empleo": 5 }, "stats": { "jobs": 40 } },
+      "corrupt": { "kind": "cohecho", "evidence": 1, "visibility": 2, "witnesses": ["concejal_urbanismo"] } },
+    { "id": "c", "effects": {} }
+  ]},
+  { "id": "vivienda_sorteo", "when": { "building": { "id": "vivienda_protegida", "status": "built" } }, "options": [
+    { "id": "a", "effects": { "image": 1, "collectives": { "inquilinos": 0.5, "jovenes": 0.5 } } },
+    { "id": "b", "effects": { "power": 4 },
+      "corrupt": { "kind": "prevaricacion", "evidence": 1, "visibility": 3, "witnesses": ["jefa_gabinete"] } },
+    { "id": "c", "effects": { "budget": -10000, "image": 2, "compass": 1 } }
+  ]},
+  { "id": "parque_estatua", "when": { "building": { "id": "parque", "status": "built" } }, "options": [
+    { "id": "a", "effects": { "budget": -20000, "image": 0.5 } },
+    { "id": "b", "effects": { "budget": -60000, "image": -2, "compass": 4 } },
+    { "id": "c", "effects": { "budget": -1000, "collectives": { "ecologistas": 0.3 } } }
+  ]},
+
+  { "id": "fiestas", "when": { "minMonth": 2 }, "options": [
+    { "id": "a", "effects": { "budget": -30000, "collectives": { "pensionistas": 0.5 } } },
+    { "id": "b", "effects": { "budget": -200000, "blackMoney": 50000, "image": 1, "collectives": { "jovenes": 1 } },
+      "corrupt": { "kind": "malversacion", "evidence": 1, "visibility": 2, "witnesses": ["jefa_gabinete"] } },
+    { "id": "c", "effects": { "budget": 40000, "image": -1, "collectives": { "jovenes": -1 } } }
+  ]},
+  { "id": "tesorero_campana", "when": { "minMonth": 10 }, "options": [
+    { "id": "a", "requires": { "blackMoney": 100000 }, "effects": { "blackMoney": -100000, "power": 8, "loyalty": { "tesorero": 2 } },
+      "corrupt": { "kind": "financiacion_ilegal", "evidence": 2, "visibility": 1, "witnesses": ["tesorero"] } },
+    { "id": "b", "effects": { "power": 2, "image": 1 } },
+    { "id": "c", "effects": { "power": -5, "loyalty": { "tesorero": -2 } } }
+  ]},
+  { "id": "jefa_aumento", "when": { "minTrail": 2 }, "options": [
+    { "id": "a", "effects": { "budget": -40000, "loyalty": { "jefa_gabinete": 3 } },
+      "corrupt": { "kind": "malversacion", "evidence": 1, "visibility": 1, "witnesses": ["interventora"] } },
+    { "id": "b", "effects": { "budget": -20000, "loyalty": { "jefa_gabinete": 1 } } },
+    { "id": "c", "effects": { "loyalty": { "jefa_gabinete": -3 } } }
+  ]},
+  { "id": "interventora_informe", "weight": 2, "when": { "minMonth": 6, "minTrail": 1 }, "options": [
+    { "id": "a", "effects": { "suspicion": -8, "power": -3, "compass": -4, "loyalty": { "interventora": 2 } } },
+    { "id": "b", "effects": { "suspicion": 4, "compass": 4, "loyalty": { "interventora": -2 } } },
+    { "id": "c", "effects": { "suspicion": -6, "power": 1, "compass": 6, "loyalty": { "interventora": -4 } } }
+  ]},
+  { "id": "padron", "when": { "minMonth": 4 }, "options": [
+    { "id": "a", "effects": { "budget": 100000, "collectives": { "migrantes": 2, "propietarios": -0.5 } } },
+    { "id": "b", "effects": { "collectives": { "migrantes": -1.5, "autonomos": 0.5 } } },
+    { "id": "c", "effects": { "fraud": 2 },
+      "corrupt": { "kind": "fraude_electoral", "evidence": 2, "visibility": 2, "witnesses": ["cunado"] } }
+  ]},
+  { "id": "rotonda", "when": { "minMonth": 3 }, "options": [
+    { "id": "a", "requires": { "budget": 300000 }, "effects": { "budget": -300000, "image": 1 } },
+    { "id": "b", "requires": { "budget": 300000 }, "effects": { "budget": -300000, "blackMoney": 40000, "image": 1 },
+      "corrupt": { "kind": "malversacion", "evidence": 1, "visibility": 2, "witnesses": ["concejal_urbanismo"] } },
+    { "id": "c", "effects": { "collectives": { "autonomos": -0.3 } } }
+  ]},
+  { "id": "mocion", "when": { "minSuspicion": 30 }, "options": [
+    { "id": "a", "effects": { "suspicion": -5, "image": -1, "power": -2 } },
+    { "id": "b", "effects": { "image": -1, "compass": 3, "power": 2 } },
+    { "id": "c", "effects": { "journalist": 5, "compass": 1 } }
+  ]},
+  { "id": "fiscal", "weight": 3, "when": { "minMonth": 12, "minSuspicion": 55, "minTrail": 3 }, "options": [
+    { "id": "a", "effects": { "ending": "arrepentido" } },
+    { "id": "b", "effects": { "suspicion": 5 } },
+    { "id": "c", "effects": { "power": -6, "suspicion": -10, "loyalty": { "tesorero": -1 } } }
+  ]},
+  { "id": "partido_aviso", "weight": 2, "when": { "minSuspicion": 45 }, "options": [
+    { "id": "a", "effects": { "power": 2, "compass": -1 } },
+    { "id": "b", "effects": { "power": 5, "compass": 5, "loyalty": { "tesorero": -2 } } },
+    { "id": "c", "effects": { "power": 3, "compass": 2 } }
+  ]},
+  { "id": "campana", "weight": 5, "when": { "minMonth": 41, "maxMonth": 46 }, "options": [
+    { "id": "a", "effects": { "image": 3, "collectives": { "propietarios": 1, "autonomos": 0.5 } } },
+    { "id": "b", "effects": { "image": 2, "collectives": { "inquilinos": 1, "jovenes": 1 } } },
+    { "id": "c", "effects": { "image": 2, "compass": 2, "collectives": { "pensionistas": 0.5 } } }
+  ]},
+  { "id": "amano_correo", "weight": 6, "when": { "minMonth": 43, "maxMonth": 47 }, "options": [
+    { "id": "a", "requires": { "blackMoney": 150000 }, "effects": { "blackMoney": -150000, "fraud": 4 },
+      "corrupt": { "kind": "fraude_electoral", "evidence": 4, "visibility": 3, "witnesses": ["jefa_gabinete", "cunado"] } },
+    { "id": "b", "effects": { "compass": -1 } }
+  ]},
+  { "id": "amano_autobus", "weight": 6, "when": { "minMonth": 44, "maxMonth": 47 }, "options": [
+    { "id": "a", "requires": { "blackMoney": 80000 }, "effects": { "blackMoney": -80000, "fraud": 3, "collectives": { "pensionistas": 0.5 } },
+      "corrupt": { "kind": "fraude_electoral", "evidence": 3, "visibility": 4, "witnesses": ["jefa_gabinete"] } },
+    { "id": "b", "requires": { "budget": 20000 }, "effects": { "budget": -20000, "collectives": { "pensionistas": 0.5 } } },
+    { "id": "c", "effects": {} }
+  ]},
+  { "id": "cunado_consultora", "when": { "minMonth": 8 }, "options": [
+    { "id": "a", "effects": { "blackMoney": 60000, "loyalty": { "cunado": 2 } },
+      "corrupt": { "kind": "trafico_influencias", "evidence": 1, "visibility": 2, "witnesses": ["cunado", "interventora"] } },
+    { "id": "b", "effects": { "loyalty": { "cunado": -2 } } }
+  ]},
+  { "id": "auditoria", "when": { "minMonth": 18 }, "options": [
+    { "id": "a", "effects": { "action": "audit" } },
+    { "id": "b", "effects": { "image": -2, "compass": 2, "suspicion": 3 } }
+  ]},
+  { "id": "farola", "repeatable": true, "weight": 0.6, "when": { "minMonth": 1 }, "options": [
+    { "id": "a", "effects": { "budget": -3000, "image": 0.5 } },
+    { "id": "b", "effects": { "compass": 1 } }
+  ]},
+  { "id": "huelga_basura", "when": { "minMonth": 12 }, "options": [
+    { "id": "a", "requires": { "budget": 150000 }, "effects": { "budget": -150000, "image": 1 } },
+    { "id": "b", "effects": { "image": -3 } },
+    { "id": "c", "effects": { "image": 2, "power": -2 } }
+  ]},
+
+  { "id": "crisis_sequia", "chainOnly": true, "options": [
+    { "id": "a", "effects": { "legacy": { "agua": 3 }, "collectives": { "ecologistas": 1, "autonomos": -1 } } },
+    { "id": "b", "effects": { "loyalty": { "concejal_urbanismo": 1 }, "collectives": { "ecologistas": -1 } },
+      "corrupt": { "kind": "trafico_influencias", "evidence": 1, "visibility": 2, "witnesses": ["concejal_urbanismo"] } },
+    { "id": "c", "effects": { "budget": -5000, "image": -1, "collectives": { "pensionistas": 1 } } }
+  ]},
+  { "id": "crisis_tipos", "chainOnly": true, "options": [
+    { "id": "a", "effects": { "budget": 200000, "image": -2 } },
+    { "id": "b", "effects": { "budget": 300000, "incomeDelta": -8000 } },
+    { "id": "c", "effects": { "image": 1, "compass": 2 } }
+  ]},
+  { "id": "crisis_fabrica", "chainOnly": true, "options": [
+    { "id": "a", "requires": { "budget": 250000 }, "effects": { "budget": -250000, "legacy": { "empleo": 6 }, "stats": { "jobs": 80 }, "collectives": { "migrantes": 0.5, "autonomos": 0.5 } } },
+    { "id": "b", "effects": { "image": 2, "compass": 2 } },
+    { "id": "c", "requires": { "budget": 200000 }, "effects": { "budget": -200000, "blackMoney": 80000, "legacy": { "empleo": 6 }, "stats": { "jobs": 100 } },
+      "corrupt": { "kind": "cohecho", "evidence": 2, "visibility": 3, "witnesses": ["constructor", "interventora"] } }
+  ]},
+  { "id": "crisis_turismo", "chainOnly": true, "options": [
+    { "id": "a", "effects": { "budget": 150000, "collectives": { "turistico": -1 } } },
+    { "id": "b", "effects": { "collectives": { "autonomos": 1, "turistico": 1, "inquilinos": -1 } } },
+    { "id": "c", "effects": { "budget": 80000, "image": -1, "compass": 1 } }
+  ]},
+
+  { "id": "periodista_1", "chainOnly": true, "options": [
+    { "id": "a", "effects": { "action": "journalist_collaborate" } },
+    { "id": "b", "requires": { "blackMoney": 50000 }, "effects": { "blackMoney": -50000, "action": "journalist_bribe" },
+      "corrupt": { "kind": "cohecho", "evidence": 2, "visibility": 1, "witnesses": [] } },
+    { "id": "c", "effects": { "budget": 20000, "journalist": 15, "image": -3, "power": 1, "compass": 5 } },
+    { "id": "d", "effects": {} }
+  ]},
+  { "id": "periodista_2", "chainOnly": true, "onShow": { "suspicion": 8, "image": -3 }, "options": [
+    { "id": "a", "effects": { "action": "journalist_collaborate" } },
+    { "id": "b", "requires": { "blackMoney": 100000 }, "effects": { "blackMoney": -100000, "action": "journalist_bribe" },
+      "corrupt": { "kind": "cohecho", "evidence": 3, "visibility": 1, "witnesses": [] } },
+    { "id": "c", "effects": { "budget": -30000, "journalist": 10, "image": -2, "compass": 5 } },
+    { "id": "d", "effects": { "suspicion": 3 } }
+  ]},
+  { "id": "periodista_3", "chainOnly": true, "onShow": { "suspicion": 15, "image": -6 }, "options": [
+    { "id": "a", "effects": { "image": -1, "compass": 2 } },
+    { "id": "b", "effects": { "suspicion": -10, "compass": 8, "loyalty": { "cunado": -5 } } },
+    { "id": "c", "requires": { "blackMoney": 150000 }, "effects": { "blackMoney": -150000, "suspicion": -15, "action": "journalist_bribe" },
+      "corrupt": { "kind": "cohecho", "evidence": 3, "visibility": 2, "witnesses": [] } },
+    { "id": "d", "effects": {} }
+  ]}
+]

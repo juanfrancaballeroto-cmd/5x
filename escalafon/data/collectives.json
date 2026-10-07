@@ -1,0 +1,10 @@
+[
+  { "id": "inquilinos", "weight": 0.14, "color": "#5b7fa6", "start": { "orden": 4.0, "progreso": 6.5 } },
+  { "id": "propietarios", "weight": 0.15, "color": "#8a6d4b", "start": { "orden": 6.5, "progreso": 3.5 } },
+  { "id": "jovenes", "weight": 0.10, "color": "#6a9a7b", "start": { "orden": 4.0, "progreso": 6.5 } },
+  { "id": "pensionistas", "weight": 0.20, "color": "#9b8bb0", "start": { "orden": 6.0, "progreso": 5.0 } },
+  { "id": "autonomos", "weight": 0.12, "color": "#b08a3e", "start": { "orden": 6.5, "progreso": 4.0 } },
+  { "id": "turistico", "weight": 0.07, "color": "#c47b5a", "start": { "orden": 6.0, "progreso": 3.5 } },
+  { "id": "migrantes", "weight": 0.07, "color": "#7b8a5b", "start": { "orden": 3.5, "progreso": 6.0 } },
+  { "id": "ecologistas", "weight": 0.08, "color": "#4f8a68", "start": { "orden": 3.5, "progreso": 6.5 } }
+]

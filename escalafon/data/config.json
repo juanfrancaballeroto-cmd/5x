@@ -1,0 +1,114 @@
+{
+  "time": {
+    "monthSeconds": 10,
+    "totalMonths": 48,
+    "speeds": [1, 2, 3],
+    "startYear": 2031
+  },
+  "start": {
+    "power": 55,
+    "image": 50,
+    "budget": 2600000,
+    "blackMoney": 0,
+    "suspicion": 0,
+    "compass": 0
+  },
+  "economy": {
+    "baseIncome": 310000,
+    "baseExpense": 290000,
+    "debtImagePenalty": 1.5,
+    "debtPowerPenalty": 1.5
+  },
+  "suspicion": {
+    "monthlyDecay": 1,
+    "blackMoneyPerPoint": 250000,
+    "visibilityMultiplier": 2.5,
+    "max": 100
+  },
+  "image": {
+    "inertia": 0.12,
+    "suspicionPenalty": 0.25,
+    "collectiveScale": 10
+  },
+  "power": {
+    "imageFactor": 0.03,
+    "suspicionThreshold": 50,
+    "suspicionFactor": 0.05,
+    "decreeToggleCost": 3
+  },
+  "compass": {
+    "perCorruptAct": 4,
+    "tiers": [0, 25, 50, 75]
+  },
+  "collectives": {
+    "neutral": 5,
+    "reversion": 0.02,
+    "min": 0,
+    "max": 10
+  },
+  "loyalty": {
+    "leakBelow": 3,
+    "shieldAbove": 8,
+    "leakChance": 0.15,
+    "leakSuspicionPerEvidence": 5,
+    "leakImagePerEvidence": 1.5,
+    "leakInterestPerEvidence": 8,
+    "honestWitnessPenalty": 1,
+    "shieldSuspicionAfter": 60
+  },
+  "adjudication": {
+    "clean": { "costMult": 1.2, "timeMult": 1.5 },
+    "dedo": {
+      "costMult": 1.0,
+      "timeMult": 0.6,
+      "commission": 0.1,
+      "evidence": 2,
+      "visibility": 2,
+      "witnesses": ["constructor", "interventora"]
+    }
+  },
+  "launder": {
+    "chunk": 100000,
+    "fee": 0.25,
+    "evidence": 1,
+    "visibility": 1,
+    "witnesses": ["cunado"]
+  },
+  "blackActions": {
+    "fundParty": { "cost": 100000, "power": 7, "evidence": 2, "visibility": 1, "witnesses": ["tesorero"] },
+    "bonus": { "cost": 30000, "loyalty": 2, "evidence": 1, "visibility": 1 },
+    "campaign": { "cost": 120000, "image": 5, "evidence": 2, "visibility": 2, "witnesses": ["jefa_gabinete"] }
+  },
+  "expedientes": {
+    "minGap": 1,
+    "maxGap": 2,
+    "firstMonth": 1
+  },
+  "journalist": {
+    "perVisibility": 0.25,
+    "maxMonthlyGain": 5,
+    "decay": 1,
+    "stages": [25, 55, 85],
+    "silenceMonths": 8
+  },
+  "events": {
+    "monthlyChance": 0.09,
+    "minGap": 6
+  },
+  "election": {
+    "imageWeight": 0.5,
+    "collectiveWeight": 0.5,
+    "suspicionPenalty": 0.1,
+    "noise": 0.035,
+    "threshold": 0.5,
+    "fraudDiscoveryPerPoint": 0.07
+  },
+  "scapegoat": {
+    "suspicion": 70,
+    "power": 35,
+    "chance": 0.2
+  },
+  "debt": {
+    "allowBuildBelow": 0
+  }
+}

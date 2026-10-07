@@ -1,0 +1,22 @@
+[
+  {
+    "id": "sequia", "duration": 6, "weight": 1, "minMonth": 6, "card": "crisis_sequia",
+    "onStart": { "image": -1 },
+    "monthly": { "budget": -8000, "collectives": { "autonomos": -0.05, "ecologistas": 0.01 }, "legacy": { "agua": -0.5 } }
+  },
+  {
+    "id": "tipos", "duration": 8, "weight": 1, "minMonth": 4, "card": "crisis_tipos",
+    "onStart": {},
+    "monthly": { "budget": -15000, "collectives": { "propietarios": -0.04, "jovenes": -0.03 } }
+  },
+  {
+    "id": "fabrica", "duration": 1, "weight": 1, "minMonth": 8, "card": "crisis_fabrica",
+    "onStart": { "image": -3, "stats": { "jobs": -150 }, "collectives": { "autonomos": -0.8, "migrantes": -0.8 }, "legacy": { "empleo": -6 } },
+    "monthly": {}
+  },
+  {
+    "id": "turismo_record", "duration": 4, "weight": 1, "minMonth": 3, "card": "crisis_turismo",
+    "onStart": { "image": 1 },
+    "monthly": { "budget": 20000, "collectives": { "turistico": 0.06, "inquilinos": -0.03 } }
+  }
+]

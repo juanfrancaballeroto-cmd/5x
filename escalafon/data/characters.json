@@ -1,0 +1,8 @@
+[
+  { "id": "cunado", "loyalty": 6, "honest": false },
+  { "id": "jefa_gabinete", "loyalty": 7, "honest": false },
+  { "id": "concejal_urbanismo", "loyalty": 5, "honest": false },
+  { "id": "constructor", "loyalty": 5, "honest": false },
+  { "id": "tesorero", "loyalty": 6, "honest": false },
+  { "id": "interventora", "loyalty": 5, "honest": true }
+]
