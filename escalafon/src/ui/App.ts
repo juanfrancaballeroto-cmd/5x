@@ -8,7 +8,9 @@ import { t } from '../i18n';
 import { renderBuildPanel } from './buildPanel';
 import { renderExpediente } from './expediente';
 import { resolveExpediente } from '../sim/expedientes';
-import { causesPanel, loyaltiesPanel } from './panels';
+import { cajaPanel, causesPanel, collectivesPanel, decreesPanel, logPanel, loyaltiesPanel, pressPanel, type SideHandlers } from './panels';
+import { bonus, campaign, fundParty, launder } from '../sim/actions';
+import { toggleDecree } from '../sim/decrees';
 import { clear, h } from './dom';
 import { resolveVars } from './format';
 import { renderDate, renderMeters } from './topbar';
@@ -120,6 +122,7 @@ export class App {
       this.acc += dt * this.speed;
       if (this.acc >= monthMs) {
         this.acc -= monthMs;
+        this.rollMonthSnapshot();
         advanceMonth(this.state, this.data);
         this.refresh();
       }
@@ -130,6 +133,7 @@ export class App {
 
   /** Advance one month immediately (used by tests and the debug hook). */
   stepMonth() {
+    this.rollMonthSnapshot();
     advanceMonth(this.state, this.data);
     this.acc = 0;
     this.refresh();
@@ -164,8 +168,39 @@ export class App {
     }
   }
 
+  private prevCollectives: Record<string, number> | null = null;
+  private prevMonth = -1;
+
+  private side: SideHandlers = {
+    toggleDecree: (id) => toggleDecree(this.state, this.data, id) && this.refresh(),
+    launder: () => launder(this.state, this.data) && this.refresh(),
+    fundParty: () => fundParty(this.state, this.data) && this.refresh(),
+    campaign: () => campaign(this.state, this.data) && this.refresh(),
+    bonus: (who) => bonus(this.state, this.data, who) && this.refresh(),
+  };
+
   private renderSides() {
-    this.el.left.replaceChildren(causesPanel(this.data, this.state), loyaltiesPanel(this.data, this.state));
+    this.el.left.replaceChildren(
+      causesPanel(this.data, this.state),
+      collectivesPanel(this.data, this.state, this.prevCollectives),
+      loyaltiesPanel(this.data, this.state),
+    );
+    this.el.right.replaceChildren(
+      pressPanel(this.state),
+      decreesPanel(this.data, this.state, this.side),
+      cajaPanel(this.data, this.state, this.side),
+      logPanel(this.state),
+    );
+    // Trend arrows compare with the previous month, not the previous click.
+    if (this.state.month !== this.prevMonth) {
+      this.prevMonth = this.state.month;
+      this.prevCollectivesNext = { ...this.state.collectives };
+    }
+  }
+  private prevCollectivesNext: Record<string, number> | null = null;
+
+  private rollMonthSnapshot() {
+    this.prevCollectives = this.prevCollectivesNext;
   }
 
   choose(optionId: string) {

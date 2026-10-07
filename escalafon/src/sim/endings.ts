@@ -8,7 +8,7 @@ export function setEnding(state: GameState, _data: GameData, id: EndingId, voteP
   if (state.ended) return;
   state.ended = { id, month: state.month, votePct, reason };
   state.pending = null;
-  log(state, `ending.${id}.headline`, 'press');
+  log(state, `ending.${id}.headline`, 'press', { name: state.name });
 }
 
 /** Checks the non-electoral endings. Called at the end of each month and after each decision. */
