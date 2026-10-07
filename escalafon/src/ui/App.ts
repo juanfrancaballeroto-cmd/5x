@@ -6,6 +6,9 @@ import { advanceMonth, canAdvance } from '../sim/tick';
 import type { GameState, Mode, Setup } from '../sim/types';
 import { t } from '../i18n';
 import { renderBuildPanel } from './buildPanel';
+import { renderExpediente } from './expediente';
+import { resolveExpediente } from '../sim/expedientes';
+import { causesPanel, loyaltiesPanel } from './panels';
 import { clear, h } from './dom';
 import { resolveVars } from './format';
 import { renderDate, renderMeters } from './topbar';
@@ -161,11 +164,21 @@ export class App {
     }
   }
 
-  protected renderSides() {}
+  private renderSides() {
+    this.el.left.replaceChildren(causesPanel(this.data, this.state), loyaltiesPanel(this.data, this.state));
+  }
 
-  protected renderOverlay() {
+  choose(optionId: string) {
+    if (resolveExpediente(this.state, this.data, optionId)) this.refresh();
+  }
+
+  private renderOverlay() {
     const o = this.el.overlay;
     clear(o);
+    if (this.state.pending) {
+      o.append(renderExpediente(this.data, this.state, (id) => this.choose(id)));
+      return;
+    }
     if (this.selected)
       o.append(
         renderBuildPanel(this.data, this.state, this.selected, {
