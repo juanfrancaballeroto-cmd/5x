@@ -7,6 +7,7 @@ import type { GameState, Mode, Setup } from '../sim/types';
 import { t } from '../i18n';
 import { renderBuildPanel } from './buildPanel';
 import { renderExpediente } from './expediente';
+import { renderFrontPage } from './frontPage';
 import { resolveExpediente } from '../sim/expedientes';
 import { cajaPanel, causesPanel, collectivesPanel, decreesPanel, logPanel, loyaltiesPanel, pressPanel, type SideHandlers } from './panels';
 import { bonus, campaign, fundParty, launder } from '../sim/actions';
@@ -27,6 +28,7 @@ export class App {
   private last = 0;
   private map = new MapView();
   private selected: string | null = null;
+  private frontDismissed = false;
   private logSeen = 0;
   private el = {
     root: h('div.game'),
@@ -210,6 +212,11 @@ export class App {
   private renderOverlay() {
     const o = this.el.overlay;
     clear(o);
+    if (this.state.ended) {
+      if (!this.frontDismissed)
+        o.append(renderFrontPage(this.data, this.state, { again: () => this.destroy(), close: () => ((this.frontDismissed = true), this.renderOverlay()) }));
+      return;
+    }
     if (this.state.pending) {
       o.append(renderExpediente(this.data, this.state, (id) => this.choose(id)));
       return;
