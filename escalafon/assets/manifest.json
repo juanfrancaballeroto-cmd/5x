@@ -1,0 +1,32 @@
+{
+  "_doc": "Sustituye cualquier placeholder poniendo en 'sprite' la ruta de un PNG isométrico 2:1 con fondo transparente (relativa a assets/, p. ej. 'sprites/hotel.png'). 'anchor' es el punto del PNG que se apoya en la esquina inferior de la huella. 'color' es el color del prisma placeholder mientras sprite sea null.",
+  "tile": { "width": 64, "height": 32, "heightUnit": 14 },
+  "buildings": {
+    "vivienda_protegida": { "color": "#6f9a8d", "sprite": null, "anchor": [0.5, 1] },
+    "bloque_libre": { "color": "#a3a9b4", "sprite": null, "anchor": [0.5, 1] },
+    "hotel": { "color": "#c98b6b", "sprite": null, "anchor": [0.5, 1] },
+    "pisos_turisticos": { "color": "#d4a35c", "sprite": null, "anchor": [0.5, 1] },
+    "polideportivo": { "color": "#5f87b5", "sprite": null, "anchor": [0.5, 1] },
+    "centro_salud": { "color": "#e4e1d8", "sprite": null, "anchor": [0.5, 1] },
+    "depuradora": { "color": "#6aa0b8", "sprite": null, "anchor": [0.5, 1] },
+    "poligono_industrial": { "color": "#8c8478", "sprite": null, "anchor": [0.5, 1] },
+    "regadio": { "color": "#9cbf6a", "sprite": null, "anchor": [0.5, 1] },
+    "parque": { "color": "#5f9e5a", "sprite": null, "anchor": [0.5, 1] }
+  },
+  "tiles": {
+    "grass": { "color": "#c8ceac", "sprite": null },
+    "field": { "color": "#d8cd98", "sprite": null },
+    "river": { "color": "#8fb0c4", "sprite": null },
+    "bridge": { "color": "#8a7f70", "sprite": null },
+    "road": { "color": "#aaa59b", "sprite": null },
+    "plaza": { "color": "#d9d0be", "sprite": null },
+    "house": { "color": "#c9b79a", "sprite": null },
+    "townhall": { "color": "#b59d78", "sprite": null },
+    "church": { "color": "#bfb196", "sprite": null }
+  },
+  "zones": {
+    "urbano": { "color": "#e9e1cc" },
+    "rustico": { "color": "#cfd59a" },
+    "vega": { "color": "#b9d08a" }
+  }
+}

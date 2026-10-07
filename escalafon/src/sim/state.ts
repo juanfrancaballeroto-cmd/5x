@@ -26,6 +26,7 @@ export function createGame(data: GameData, setup: Setup): GameState {
     version: SAVE_VERSION,
     seed: setup.seed,
     rng: seedToState(setup.seed),
+    name: setup.name ?? 'Andrés Pardo',
     month: 0,
     party: setup.party,
     causes: [...setup.causes],

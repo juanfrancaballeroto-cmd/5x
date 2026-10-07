@@ -89,6 +89,7 @@ export interface GameState {
   version: number;
   seed: number;
   rng: number;
+  name: string;
   month: number;
   party: PartyId;
   causes: CauseId[];
@@ -124,6 +125,7 @@ export interface GameState {
 
 export interface Setup {
   seed: number;
+  name?: string;
   party: PartyId;
   causes: CauseId[];
 }
