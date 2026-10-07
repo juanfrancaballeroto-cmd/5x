@@ -34,6 +34,8 @@ export function fundParty(state: GameState, data: GameData): boolean {
 export function bonus(state: GameState, data: GameData, who: CharacterId): boolean {
   const B = data.config.blackActions.bonus;
   if (state.ended || state.blackMoney < B.cost || state.gone.includes(who)) return false;
+  // Some people cannot be bought. That is precisely their problem.
+  if (data.characters.find((c) => c.id === who)?.honest) return false;
   state.blackMoney -= B.cost;
   state.loyalties[who] += B.loyalty;
   commitCorruption(state, data, { kind: 'cohecho', evidence: B.evidence, visibility: B.visibility, witnesses: [who] }, `bonus:${who}`, B.cost);

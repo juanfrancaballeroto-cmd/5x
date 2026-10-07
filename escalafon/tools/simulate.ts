@@ -27,6 +27,11 @@ interface Summary {
   avgCrimes: number;
   avgVote: number;
   avgDecisions: number;
+  avgBuildings: number;
+  avgImage: number;
+  avgSuspicion: number;
+  avgCollectives: number;
+  avgPower: number;
 }
 
 function summarize(strategy: StrategyId, results: GameResult[]): Summary {
@@ -48,6 +53,11 @@ function summarize(strategy: StrategyId, results: GameResult[]): Summary {
     avgCrimes: avg((r) => r.crimes),
     avgVote: voted.length ? voted.reduce((s, r) => s + (r.votePct ?? 0), 0) / voted.length : 0,
     avgDecisions: avg((r) => r.decisions),
+    avgBuildings: avg((r) => r.buildings),
+    avgImage: avg((r) => r.image),
+    avgSuspicion: avg((r) => r.suspicion),
+    avgCollectives: avg((r) => r.collectives),
+    avgPower: avg((r) => r.power),
   };
 }
 
@@ -90,6 +100,11 @@ if (asJson) {
   row('legado (media)', (s) => s.avgLegacy.toFixed(0));
   row('delitos (media)', (s) => s.avgCrimes.toFixed(1));
   row('voto % (si hubo)', (s) => s.avgVote.toFixed(1));
+  row('obras terminadas', (s) => s.avgBuildings.toFixed(1));
+  row('imagen final', (s) => s.avgImage.toFixed(1));
+  row('sospecha final', (s) => s.avgSuspicion.toFixed(1));
+  row('colectivos final', (s) => s.avgCollectives.toFixed(2));
+  row('poder final', (s) => s.avgPower.toFixed(1));
   console.log('\nObjetivos de balance:');
   for (const c of checks) console.log(`  ${c.ok ? '✔' : '✘'} ${c.name} (${pct(c.value).trim()})`);
   console.log('');

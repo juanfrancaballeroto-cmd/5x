@@ -121,7 +121,7 @@ export function cajaPanel(data: GameData, state: GameState, on: SideHandlers): H
   const select = h(
     'select',
     { 'data-testid': 'bonus-who' },
-    ...data.characters.filter((c) => !state.gone.includes(c.id)).map((c) => h('option', { value: c.id }, t(`char.${c.id}.name`))),
+    ...data.characters.filter((c) => !state.gone.includes(c.id) && !c.honest).map((c) => h('option', { value: c.id }, t(`char.${c.id}.name`))),
   ) as HTMLSelectElement;
   return h(
     'section.panel.caja',

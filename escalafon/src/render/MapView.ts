@@ -51,7 +51,15 @@ export class MapView {
     this.drawGround();
     this.centerView();
     this.bindInput(this.app.canvas);
-    new ResizeObserver(() => this.centerView(false)).observe(el);
+    this.resize = new ResizeObserver(() => this.centerView(false));
+    this.resize.observe(el);
+  }
+
+  private resize: ResizeObserver | null = null;
+
+  destroy() {
+    this.resize?.disconnect();
+    this.app.destroy(true);
   }
 
   private async loadSprites() {

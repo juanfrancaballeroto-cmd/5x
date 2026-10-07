@@ -192,6 +192,7 @@ export const ConfigSchema = z.object({
     perVisibility: z.number(),
     maxMonthlyGain: z.number(),
     decay: z.number(),
+    memoryMonths: z.number().int().positive(),
     stages: z.array(z.number()).length(3),
     silenceMonths: z.number().int(),
   }),

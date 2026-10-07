@@ -2,13 +2,17 @@
   "time": {
     "monthSeconds": 10,
     "totalMonths": 48,
-    "speeds": [1, 2, 3],
+    "speeds": [
+      1,
+      2,
+      3
+    ],
     "startYear": 2031
   },
   "start": {
     "power": 55,
     "image": 50,
-    "budget": 2600000,
+    "budget": 1900000,
     "blackMoney": 0,
     "suspicion": 0,
     "compass": 0
@@ -27,7 +31,7 @@
   },
   "image": {
     "inertia": 0.12,
-    "suspicionPenalty": 0.25,
+    "suspicionPenalty": 0.1,
     "collectiveScale": 10
   },
   "power": {
@@ -38,11 +42,16 @@
   },
   "compass": {
     "perCorruptAct": 4,
-    "tiers": [0, 25, 50, 75]
+    "tiers": [
+      0,
+      25,
+      50,
+      75
+    ]
   },
   "collectives": {
-    "neutral": 5,
-    "reversion": 0.02,
+    "neutral": 3.6,
+    "reversion": 0.04,
     "min": 0,
     "max": 10
   },
@@ -57,14 +66,20 @@
     "shieldSuspicionAfter": 60
   },
   "adjudication": {
-    "clean": { "costMult": 1.2, "timeMult": 1.5 },
+    "clean": {
+      "costMult": 1.4,
+      "timeMult": 2.0
+    },
     "dedo": {
       "costMult": 1.0,
-      "timeMult": 0.6,
-      "commission": 0.1,
+      "timeMult": 0.5,
+      "commission": 0.15,
       "evidence": 2,
       "visibility": 2,
-      "witnesses": ["constructor", "interventora"]
+      "witnesses": [
+        "constructor",
+        "interventora"
+      ]
     }
   },
   "launder": {
@@ -72,12 +87,35 @@
     "fee": 0.25,
     "evidence": 1,
     "visibility": 1,
-    "witnesses": ["cunado"]
+    "witnesses": [
+      "cunado"
+    ]
   },
   "blackActions": {
-    "fundParty": { "cost": 100000, "power": 7, "evidence": 2, "visibility": 1, "witnesses": ["tesorero"] },
-    "bonus": { "cost": 30000, "loyalty": 2, "evidence": 1, "visibility": 1 },
-    "campaign": { "cost": 120000, "image": 5, "evidence": 2, "visibility": 2, "witnesses": ["jefa_gabinete"] }
+    "fundParty": {
+      "cost": 100000,
+      "power": 7,
+      "evidence": 2,
+      "visibility": 1,
+      "witnesses": [
+        "tesorero"
+      ]
+    },
+    "bonus": {
+      "cost": 30000,
+      "loyalty": 2,
+      "evidence": 1,
+      "visibility": 1
+    },
+    "campaign": {
+      "cost": 100000,
+      "image": 8,
+      "evidence": 2,
+      "visibility": 2,
+      "witnesses": [
+        "jefa_gabinete"
+      ]
+    }
   },
   "expedientes": {
     "minGap": 1,
@@ -88,7 +126,12 @@
     "perVisibility": 0.25,
     "maxMonthlyGain": 5,
     "decay": 1,
-    "stages": [25, 55, 85],
+    "memoryMonths": 12,
+    "stages": [
+      25,
+      55,
+      85
+    ],
     "silenceMonths": 8
   },
   "events": {
@@ -98,8 +141,8 @@
   "election": {
     "imageWeight": 0.5,
     "collectiveWeight": 0.5,
-    "suspicionPenalty": 0.1,
-    "noise": 0.035,
+    "suspicionPenalty": 0.03,
+    "noise": 0.04,
     "threshold": 0.5,
     "fraudDiscoveryPerPoint": 0.07
   },

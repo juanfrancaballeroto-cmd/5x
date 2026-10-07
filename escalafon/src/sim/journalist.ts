@@ -11,10 +11,11 @@ export function tickJournalist(state: GameState, data: GameData) {
   const J = data.config.journalist;
   const j = state.journalist;
   if (state.month < j.silencedUntil) return;
-  const open = openEntries(state);
-  const visible = open.reduce((s, t) => s + t.visibility, 0);
+  // Old stories go cold: only what happened within the memory window keeps her digging.
+  const recent = openEntries(state).filter((t) => state.month - t.month <= J.memoryMonths);
+  const visible = recent.reduce((s, t) => s + t.visibility, 0);
   const gain = Math.min(J.maxMonthlyGain, visible * J.perVisibility);
-  j.interest = Math.max(0, Math.min(100, j.interest + gain - (gain === 0 ? J.decay : 0)));
+  j.interest = Math.max(0, Math.min(100, j.interest + gain - J.decay));
 
   if (j.stage < J.stages.length && j.interest >= J.stages[j.stage]) {
     j.stage += 1;

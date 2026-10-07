@@ -60,6 +60,7 @@ describe('crisis events', () => {
 describe('journalist', () => {
   it('gets interested as visible acts pile up and queues her chain', () => {
     const s = newGame();
+    s.month = 3;
     for (let i = 0; i < 4; i++) addTrail(s, data, { kind: 'cohecho', evidence: 2, visibility: 5, witnesses: [], source: 't' });
     for (let i = 0; i < 10; i++) tickJournalist(s, data);
     expect(s.journalist.interest).toBeGreaterThanOrEqual(data.config.journalist.stages[0]);
@@ -121,10 +122,11 @@ describe('black money actions', () => {
     const img = s.image;
     campaign(s, data);
     expect(s.image).toBe(img + data.config.blackActions.campaign.image);
-    const l = s.loyalties.interventora;
-    bonus(s, data, 'interventora');
-    expect(s.loyalties.interventora).toBeGreaterThan(l - 1);
+    const l = s.loyalties.cunado;
+    bonus(s, data, 'cunado');
+    expect(s.loyalties.cunado).toBe(l + data.config.blackActions.bonus.loyalty);
     expect(s.trail).toHaveLength(3);
+    expect(bonus(s, data, 'interventora')).toBe(false);
   });
   it('need the cash', () => {
     const s = newGame();

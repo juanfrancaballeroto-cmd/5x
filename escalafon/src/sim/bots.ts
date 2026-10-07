@@ -6,8 +6,10 @@ import { toggleDecree } from './decrees';
 import { getExpediente, optionAvailable, resolveExpediente } from './expedientes';
 import { makeRng, next, pick, type RngHolder } from './rng';
 import { createGame, legacyScore } from './state';
+import { weightedCollectives } from './economy';
+import { projectVote } from './election';
 import { advanceMonth } from './tick';
-import { crimeCount } from './trail';
+import { crimeCount, openEntries } from './trail';
 import type { CauseId, CharacterId, EndingId, GameState, Mode, PartyId } from './types';
 
 export const STRATEGIES = ['limpio', 'moderado', 'corrupto', 'aleatorio'] as const;
@@ -25,6 +27,11 @@ function scoreEffects(state: GameState, data: GameData, e: Effects | undefined):
   s += (e.image ?? 0) * 1.5 + (e.power ?? 0) * (state.power < 30 ? 1.5 : 0.5);
   s += (e.budget ?? 0) / 60000 + ((e.incomeDelta ?? 0) * 20) / 60000;
   s -= (e.suspicion ?? 0) * 0.8;
+  // Upsetting someone who has seen things is expensive; so is an audit with skeletons in the closet.
+  const open = openEntries(state);
+  for (const [k, v] of Object.entries(e.loyalty ?? {}))
+    if (open.some((t) => t.witnesses.includes(k as CharacterId))) s += (v ?? 0) * (state.loyalties[k as CharacterId] < 5 ? 4 : 1.5);
+  if (e.action === 'audit') s += open.length ? -4 * open.length : 4;
   if (e.ending) s -= 1000;
   return s;
 }
@@ -39,13 +46,14 @@ function scoreBuilding(state: GameState, data: GameData, id: string): number {
 }
 
 interface Policy {
-  takeCorrupt(state: GameState): boolean;
+  takeCorrupt(state: GameState, option: OptionDef): boolean;
   mode(state: GameState): Mode;
   reserve: number;
   caja(state: GameState, data: GameData, rng: RngHolder): void;
 }
 
-const LOW_RISK = (state: GameState) => state.suspicion;
+/** Nobody in the room who is about to talk. */
+const safeWitnesses = (state: GameState, who: CharacterId[]) => who.every((w) => state.gone.includes(w) || state.loyalties[w] >= 4);
 
 const policies: Record<Exclude<StrategyId, 'aleatorio'>, Policy> = {
   limpio: {
@@ -55,15 +63,16 @@ const policies: Record<Exclude<StrategyId, 'aleatorio'>, Policy> = {
     caja: () => {},
   },
   moderado: {
-    takeCorrupt: (s) => LOW_RISK(s) < 30 && s.month < 44,
-    mode: (s) => (LOW_RISK(s) < 25 ? 'dedo' : 'clean'),
+    // The opportunist: dirty only when it pays and nobody is looking.
+    takeCorrupt: (s, o) => s.suspicion < 20 && s.month < 44 && safeWitnesses(s, o.corrupt!.witnesses),
+    mode: (s) => (s.suspicion < 15 && safeWitnesses(s, ['constructor', 'interventora']) ? 'dedo' : 'clean'),
     reserve: 200000,
     caja: (state, data) => {
-      // Keep the mattress thin and the witnesses happy.
-      if (state.blackMoney > 120000 && state.suspicion < 45) launder(state, data);
       for (const [who, l] of Object.entries(state.loyalties) as [CharacterId, number][])
-        if (l < 4 && state.trail.some((t) => t.witnesses.includes(who) && !t.leaked)) bonus(state, data, who);
-      if (state.power < 25) fundParty(state, data);
+        if (l < 3.5 && state.trail.some((t) => t.witnesses.includes(who) && !t.leaked && !t.covered)) bonus(state, data, who);
+      if (state.power < 30) fundParty(state, data);
+      if (state.month >= 42 && state.suspicion < 60) campaign(state, data);
+      if (state.blackMoney > 250000 && state.suspicion < 40) launder(state, data);
     },
   },
   corrupto: {
@@ -90,8 +99,15 @@ function chooseOption(state: GameState, data: GameData, strategy: StrategyId, rn
     if (strategy === 'moderado' && state.suspicion > 80) return 'a';
     return avail.find((o) => o.id === 'c' && state.power > 30)?.id ?? 'b';
   }
+  if (card.id.startsWith('amano_') && strategy === 'moderado') {
+    // Only when the poll is tight and the newspapers are quiet.
+    const poll = projectVote(state, data);
+    const dirty = avail.find((o) => o.corrupt);
+    if (dirty && poll > 0.45 && poll < 0.51 && state.suspicion < 35) return dirty.id;
+  }
   const corrupt = avail.filter((o) => o.corrupt);
-  if (corrupt.length && policy.takeCorrupt(state)) return corrupt.sort((a, b) => value(b) - value(a))[0].id;
+  const tempting = corrupt.filter((o) => policy.takeCorrupt(state, o));
+  if (tempting.length) return tempting.sort((a, b) => value(b) - value(a))[0].id;
   const clean = avail.filter((o) => !o.corrupt && !o.effects.ending);
   const pool = clean.length ? clean : avail;
   return pool.sort((a, b) => value(b) - value(a))[0].id;
@@ -159,6 +175,12 @@ export interface GameResult {
   blackTotal: number;
   buildings: number;
   decisions: number;
+  /** Final meters, for tuning. */
+  image: number;
+  suspicion: number;
+  collectives: number;
+  fraud: number;
+  power: number;
 }
 
 export function randomSetup(seed: number) {
@@ -172,6 +194,11 @@ export function randomSetup(seed: number) {
 
 /** Plays a whole term headless. */
 export function runGame(data: GameData, seed: number, strategy: StrategyId): GameResult {
+  return playGame(data, seed, strategy).result;
+}
+
+/** Same as runGame but also hands back the final state, for inspection. */
+export function playGame(data: GameData, seed: number, strategy: StrategyId): { result: GameResult; state: GameState } {
   const state = createGame(data, randomSetup(seed));
   const rng = makeRng(seed + 1);
   let decisions = 0;
@@ -191,7 +218,7 @@ export function runGame(data: GameData, seed: number, strategy: StrategyId): Gam
     if (state.ended) break;
     advanceMonth(state, data);
   }
-  return {
+  const result: GameResult = {
     seed,
     strategy,
     party: state.party,
@@ -204,5 +231,11 @@ export function runGame(data: GameData, seed: number, strategy: StrategyId): Gam
     blackTotal: state.stats.blackTotal,
     buildings: state.stats.buildingsDone,
     decisions,
+    image: state.image,
+    suspicion: state.suspicion,
+    collectives: weightedCollectives(state, data),
+    fraud: state.fraud,
+    power: state.power,
   };
+  return { result, state };
 }

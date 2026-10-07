@@ -4,7 +4,8 @@ import { startBuilding } from '../sim/construction';
 import { createGame } from '../sim/state';
 import { advanceMonth, canAdvance } from '../sim/tick';
 import type { GameState, Mode, Setup } from '../sim/types';
-import { t } from '../i18n';
+import { getLang, setLang, t } from '../i18n';
+import { deserialize, serialize } from '../sim/save';
 import { renderBuildPanel } from './buildPanel';
 import { renderExpediente } from './expediente';
 import { renderFrontPage } from './frontPage';
@@ -75,10 +76,25 @@ export class App {
         h('button.spd', { 'data-speed': s, 'data-testid': `speed-${s}`, title: s === 0 ? t('ui.pause') : `x${s}`, onclick: () => this.setSpeed(s) }, s === 0 ? '❚❚' : `x${s}`),
       ),
     );
+    const fileInput = h('input', { type: 'file', accept: 'application/json,.json', hidden: true }) as HTMLInputElement;
+    fileInput.addEventListener('change', () => fileInput.files?.[0] && this.loadFile(fileInput.files[0]));
     e.top.replaceChildren(
       h('div.brand', {}, h('strong', {}, t('ui.title')), h('span', {}, t('ui.subtitle'))),
       e.meters,
-      h('div.clock', {}, e.date, e.speed),
+      h(
+        'div.clock',
+        {},
+        e.date,
+        e.speed,
+        h(
+          'div.file-actions',
+          {},
+          h('button.spd', { 'data-testid': 'save', onclick: () => this.save() }, t('ui.save')),
+          h('button.spd', { onclick: () => fileInput.click() }, t('ui.load')),
+          h('button.spd', { onclick: () => this.toggleLang() }, t('ui.lang')),
+          fileInput,
+        ),
+      ),
     );
     e.stage.replaceChildren(
       e.canvasHost,
@@ -95,6 +111,47 @@ export class App {
     );
     e.root.replaceChildren(e.top, e.progress, e.left, e.stage, e.right);
     this.host.append(e.root);
+  }
+
+  /** Downloads the full game state as a JSON file. Returns the JSON for tests. */
+  save(): string {
+    const json = serialize(this.state);
+    const a = h('a', { href: URL.createObjectURL(new Blob([json], { type: 'application/json' })), download: `escalafon-mes${this.state.month}.json` });
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    this.toast(t('ui.saved'));
+    return json;
+  }
+
+  async loadFile(file: File) {
+    try {
+      this.loadJson(await file.text());
+    } catch (e) {
+      this.toast(t('ui.load_error', { error: (e as Error).message }), 'bad');
+    }
+  }
+
+  loadJson(json: string) {
+    this.state = deserialize(json);
+    this.logSeen = this.state.log.length;
+    this.frontDismissed = false;
+    this.selected = null;
+    this.prevCollectives = null;
+    this.acc = 0;
+    this.refresh();
+  }
+
+  private toggleLang() {
+    setLang(getLang() === 'es' ? 'en' : 'es');
+    this.buildLayout();
+    this.el.canvasHost.append(this.map.app.canvas);
+    this.refresh();
+  }
+
+  private toast(text: string, tone: 'good' | 'bad' | 'press' | 'info' = 'good') {
+    const el = h('div.toast', { class: tone }, text);
+    this.el.toasts.append(el);
+    setTimeout(() => el.remove(), 4000);
   }
 
   private onKey = (ev: KeyboardEvent) => {
@@ -115,8 +172,10 @@ export class App {
     this.renderClock();
   }
 
+  private dead = false;
+
   private loop = (now: number) => {
-    if (!this.state) return;
+    if (!this.state || this.dead) return;
     const dt = Math.min(250, now - this.last);
     this.last = now;
     const monthMs = this.data.config.time.monthSeconds * 1000;
@@ -132,6 +191,14 @@ export class App {
     (this.el.progress.firstChild as HTMLElement).style.width = `${(this.acc / monthMs) * 100}%`;
     requestAnimationFrame(this.loop);
   };
+
+  /** Page coordinates of a plot's centre, so tests can click the canvas like a player. */
+  plotPagePosition(plotId: string): { x: number; y: number } | null {
+    const p = this.map.plotScreenPos(plotId);
+    if (!p) return null;
+    const r = this.map.app.canvas.getBoundingClientRect();
+    return { x: r.left + p.x, y: r.top + p.y };
+  }
 
   /** Advance one month immediately (used by tests and the debug hook). */
   stepMonth() {
@@ -242,8 +309,9 @@ export class App {
   }
 
   destroy() {
+    this.dead = true;
     window.removeEventListener('keydown', this.onKey);
-    this.map.app.destroy(true);
+    this.map.destroy();
     this.onExit();
   }
 }

@@ -46,5 +46,6 @@ export function deserialize(json: string): GameState {
   }
   const save = SaveSchema.parse(parsed);
   if (save.version !== SAVE_VERSION) throw new Error(`Versión de guardado no compatible: ${save.version}`);
-  return save.state as unknown as GameState;
+  // Return the original object (validated) so key order, and therefore saves, stay byte-stable.
+  return (parsed as { state: GameState }).state;
 }
